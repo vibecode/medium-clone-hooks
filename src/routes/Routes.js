@@ -12,7 +12,7 @@ import Article from 'pages/Article'
 export default () => {
   return (
     <Switch>
-      <Route path="/" component={GlobalFeed}></Route>
+      <Route path="/" component={GlobalFeed} exact></Route>
       <Route path="/article/:slug" component={Article}></Route>
     </Switch>
   )
