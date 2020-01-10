@@ -1,14 +1,49 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 const Authentication = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = e => {
     e.preventDefault()
+    setIsSubmitting(true)
     console.log({ email, password })
   }
+
+  useEffect(() => {
+    if (!isSubmitting) {
+      return
+    }
+    console.log('effect is triggered')
+
+    async function fetchData() {
+      try {
+        const res = await axios(
+          'https://conduit.productionready.io/api/users/login',
+          {
+            method: 'post',
+            body: {
+              user: {
+                email: 'qq@qq.com',
+                password: '123'
+              }
+            }
+          }
+        )
+
+        console.log('res', res)
+        setIsSubmitting(false)
+      } catch (error) {
+        console.log('error', error)
+        setIsSubmitting(false)
+      }
+    }
+
+    fetchData()
+  })
 
   return (
     <div className="auth-page">
