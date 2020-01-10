@@ -1,49 +1,27 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import useFetch from 'hooks/useFetch'
 
 const Authentication = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    console.log({ email, password })
-  }
+  const [{ isLoading, error, response }, doFetch] = useFetch('/users/login')
 
-  useEffect(() => {
-    if (!isSubmitting) {
-      return
-    }
-    console.log('effect is triggered')
+  const handleSubmit = event => {
+    event.preventDefault()
 
-    async function fetchData() {
-      try {
-        const res = await axios(
-          'https://conduit.productionready.io/api/users/login',
-          {
-            method: 'post',
-            body: {
-              user: {
-                email: 'qq@qq.com',
-                password: '123'
-              }
-            }
-          }
-        )
-
-        console.log('res', res)
-        setIsSubmitting(false)
-      } catch (error) {
-        console.log('error', error)
-        setIsSubmitting(false)
+    doFetch({
+      method: 'post',
+      data: {
+        user: {
+          email: 'qq@qq.com',
+          password: '123'
+        }
       }
-    }
-
-    fetchData()
-  })
+    })
+    console.log('values', email, password)
+  }
 
   return (
     <div className="auth-page">
@@ -75,6 +53,7 @@ const Authentication = () => {
                   />
                 </fieldset>
                 <button
+                  disabled={isLoading}
                   className="btn btn-lg btn-primary pull-xs-right"
                   type="submit"
                 >
