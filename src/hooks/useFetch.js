@@ -3,6 +3,7 @@ import axios from 'axios'
 
 export default url => {
   const baseUrl = 'https://conduit.productionready.io/api'
+
   const [isLoading, setIsLoading] = useState(false)
   const [response, setResponse] = useState(null)
   const [error, setError] = useState(null)
@@ -20,7 +21,7 @@ export default url => {
 
     async function fetch() {
       try {
-        const res = axios(baseUrl + url, options)
+        const res = await axios(baseUrl + url, options)
 
         setResponse(res.data)
         setIsLoading(false)
