@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import useFetch from 'hooks/useFetch'
 import useLocalStorage from 'hooks/useLocalStorage'
+import BackendErrors from 'components/BackendErrors'
 import { CurrentUserContext } from 'contexts/currentUser'
 
 const Authentication = props => {
@@ -63,6 +64,8 @@ const Authentication = props => {
             <p className="text-xs-center">
               <Link to={descriptionLink}>{descriptionText}</Link>
             </p>
+            {error && <BackendErrors backendErrors={error.errors} />}
+
             <form onSubmit={handleSubmit}>
               <fieldset>
                 {!isLogin && (
