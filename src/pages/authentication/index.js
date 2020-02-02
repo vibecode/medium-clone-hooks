@@ -16,8 +16,8 @@ const Authentication = props => {
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false)
-  const [token, setToken] = useLocalStorage('token')
-  const [currentUserState, setCurrentUserState] = useContext(CurrentUserContext)
+  const [, setToken] = useLocalStorage('token')
+  const [, setCurrentUserState] = useContext(CurrentUserContext)
 
   const [{ isLoading, error, response }, doFetch] = useFetch(apiUrl)
 
