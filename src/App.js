@@ -3,7 +3,7 @@ import Routes from 'routes/Routes'
 import { BrowserRouter as Router } from 'react-router-dom'
 import TopBar from 'components/TopBar'
 import { CurrentUserProvider } from 'contexts/currentUser'
-import CurrentUserChecker from 'components/currentUserChecker'
+import CurrentUserChecker from 'components/CurrentUserChecker'
 
 function App() {
   return (
