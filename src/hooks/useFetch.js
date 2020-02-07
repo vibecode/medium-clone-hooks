@@ -44,7 +44,7 @@ export default url => {
     }
 
     fetch()
-  }, [isLoading, options, url])
+  }, [isLoading, options, url, token])
 
   return [{ isLoading, response, error }, doFetch]
 }

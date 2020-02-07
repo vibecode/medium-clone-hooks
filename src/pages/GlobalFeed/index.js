@@ -5,6 +5,10 @@ import Feed from 'components/Feed'
 import useFetch from 'hooks/useFetch'
 import Pagination from 'components/Pagination'
 import { getPaginator, limit } from 'utils'
+import PopularTags from 'components/PopularTags'
+import Loading from 'components/Loading'
+import ErrorMessage from 'components/ErrorMessage'
+import Toggle from 'components/FeedToggle'
 
 const GlobalFeed = ({ location, match }) => {
   const { offset, currentPage } = getPaginator(location.search)
@@ -29,8 +33,9 @@ const GlobalFeed = ({ location, match }) => {
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
-            {isLoading && <div>Loading...</div>}
-            {error && <div>Some error happened</div>}
+            <Toggle />
+            {isLoading && <Loading />}
+            {error && <ErrorMessage />}
             {!isLoading && response && (
               <Fragment>
                 <Feed articles={response.articles} />
@@ -43,7 +48,9 @@ const GlobalFeed = ({ location, match }) => {
               </Fragment>
             )}
           </div>
-          <div className="col-md-3">Popular tags</div>
+          <div className="col-md-3">
+            <PopularTags />
+          </div>
         </div>
       </div>
     </div>
