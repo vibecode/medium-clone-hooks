@@ -8,13 +8,17 @@ import { getPaginator, limit } from 'utils'
 import PopularTags from 'components/PopularTags'
 import Loading from 'components/Loading'
 import ErrorMessage from 'components/ErrorMessage'
-import FeedToggle from 'components/FeedToggle'
+import FeedToggler from 'components/FeedToggle'
+import Banner from 'components/Banner'
 
-const GlobalFeed = ({ location, match }) => {
+const TagFeed = ({ location, match }) => {
+  const tagName = match.params.slug
+  console.log('tagName', tagName)
   const { offset, currentPage } = getPaginator(location.search)
   const stringifiedParams = stringify({
     limit,
-    offset
+    offset,
+    tag: tagName
   })
   const apiUrl = `/articles?${stringifiedParams}`
   const currentUrl = match.url
@@ -26,14 +30,11 @@ const GlobalFeed = ({ location, match }) => {
 
   return (
     <div className="home-page">
-      <div className="banner">
-        <h1>Medium Clone</h1>
-        <p>A place to share knowledge</p>
-      </div>
+      <Banner />
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
-            <FeedToggle />
+            <FeedToggler tagName={tagName} />
             {isLoading && <Loading />}
             {error && <ErrorMessage />}
             {!isLoading && response && (
@@ -57,4 +58,4 @@ const GlobalFeed = ({ location, match }) => {
   )
 }
 
-export default GlobalFeed
+export default TagFeed
