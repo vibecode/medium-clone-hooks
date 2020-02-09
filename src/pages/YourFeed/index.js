@@ -11,16 +11,13 @@ import ErrorMessage from 'components/ErrorMessage'
 import FeedToggle from 'components/FeedToggle'
 import Banner from 'components/Banner'
 
-const TagFeed = ({ location, match }) => {
-  const tagName = match.params.slug
-  console.log('tagName', tagName)
+const YourFeed = ({ location, match }) => {
   const { offset, currentPage } = getPaginator(location.search)
   const stringifiedParams = stringify({
     limit,
-    offset,
-    tag: tagName
+    offset
   })
-  const apiUrl = `/articles?${stringifiedParams}`
+  const apiUrl = `/articles/feed?${stringifiedParams}`
   const currentUrl = match.url
   const [{ response, error, isLoading }, doFetch] = useFetch(apiUrl)
 
@@ -34,7 +31,7 @@ const TagFeed = ({ location, match }) => {
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
-            <FeedToggle tagName={tagName} />
+            <FeedToggle />
             {isLoading && <Loading />}
             {error && <ErrorMessage />}
             {!isLoading && response && (
@@ -58,4 +55,4 @@ const TagFeed = ({ location, match }) => {
   )
 }
 
-export default TagFeed
+export default YourFeed
