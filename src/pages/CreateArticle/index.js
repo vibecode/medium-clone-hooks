@@ -1,24 +1,52 @@
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { Redirect } from 'react-router-dom'
 
 import ArticleForm from 'components/ArticleForm'
+import useFetch from 'hooks/useFetch'
+import { CurrentUserContext } from 'contexts/currentUser'
 
 const CreateArticle = () => {
-  const onSubmit = data => {
-    console.log('data', data)
+  const apiUrl = '/articles'
+  const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false)
+  const [{ response, error }, doFetch] = useFetch(apiUrl)
+  const [currentUserState] = useContext(CurrentUserContext)
+
+  const onSubmit = article => {
+    doFetch({
+      method: 'post',
+      data: {
+        article
+      }
+    })
   }
   const initialValues = {
-    title: 'foo',
-    description: 'bar',
-    body: 'baz',
-    tagList: 'vvv'
+    title: '',
+    description: '',
+    body: '',
+    tagList: ''
   }
-  const errors = {}
+
+  useEffect(() => {
+    if (!response) {
+      return
+    }
+    setIsSuccessfullSubmit(true)
+  }, [response])
+
+  if (currentUserState.isLoggedIn === null) {
+    return null
+  }
+
+  if (isSuccessfullSubmit || currentUserState.isLoggedIn === false) {
+    return <Redirect to="/" />
+  }
+
   return (
     <div>
       <ArticleForm
         onSubmit={onSubmit}
         initialValues={initialValues}
-        errors={errors}
+        errors={(error && error.errors) || {}}
       />
     </div>
   )
