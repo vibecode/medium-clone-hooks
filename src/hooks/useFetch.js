@@ -18,12 +18,15 @@ export default url => {
   }, [])
 
   useEffect(() => {
+    const source = axios.CancelToken.source()
+
     if (!isLoading) {
       return
     }
 
     const requestOptions = {
       ...options,
+      cancelToken: source.token,
       ...{
         headers: {
           authorization: token ? `Token ${token}` : ''
@@ -38,12 +41,18 @@ export default url => {
         setResponse(res.data)
         setIsLoading(false)
       } catch (error) {
-        setError(error.response.data)
-        setIsLoading(false)
+        if (axios.isCancel(error)) {
+          return
+        } else {
+          setError(error.response.data)
+          setIsLoading(false)
+        }
       }
     }
 
     fetch()
+
+    return () => source.cancel()
   }, [isLoading, options, url, token])
 
   return [{ isLoading, response, error }, doFetch]
