@@ -43,13 +43,11 @@ const CreateArticle = () => {
   }
 
   return (
-    <div>
-      <ArticleForm
-        onSubmit={onSubmit}
-        initialValues={initialValues}
-        errors={(error && error.errors) || {}}
-      />
-    </div>
+    <ArticleForm
+      onSubmit={onSubmit}
+      initialValues={initialValues}
+      errors={(error && error.errors) || {}}
+    />
   )
 }
 

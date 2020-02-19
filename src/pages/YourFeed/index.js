@@ -17,6 +17,7 @@ const YourFeed = ({ location, match }) => {
     limit,
     offset
   })
+
   const apiUrl = `/articles/feed?${stringifiedParams}`
   const currentUrl = match.url
   const [{ response, error, isLoading }, doFetch] = useFetch(apiUrl)
